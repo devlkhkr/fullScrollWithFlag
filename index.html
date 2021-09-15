@@ -78,7 +78,7 @@
             if(flagForFullPageScroll){
                 doFullPageScroll(); //플래그가 true면 이벤트 발생
             }
-            if(scrollDOM.scrollTop == targetOffset){ //이동이 끝나면
+            if(scrollDOM.scrollTop >= targetOffset){ //이동이 끝나면
                 setTimeout(function(){
                     scrollDOM.classList.remove("scrollPreventDefault") //500밀리초 이후 스크롤 허용
                 },500)
