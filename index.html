@@ -13,8 +13,16 @@
         box-sizing: border-box;
     }
     html,body{
+        position: fixed;
         width: 100%;
         height: 100%;
+        overflow: hidden;
+    }
+    .wrapper_site{
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow: auto;
         scroll-behavior: smooth;
     }
     .wrapper_site,.wrapper_contents,.contents_box{
@@ -47,23 +55,23 @@
 <script>
 
     body = document.getElementsByTagName("body")[0];
+    scrollDOM = document.getElementsByClassName("wrapper_site")[0];
     targetOffset = document.getElementById("target").offsetTop; //이동해야할 돔이 상단에서 떨어진 거리
 
-    var flagForFullPageScroll = window.scrollY == 0 ? true : false; //사이트가 열리거나 새로고침 될 때 flag 상태
+    var flagForFullPageScroll = scrollDOM.scrollTop == 0 ? true : false; //사이트가 열리거나 새로고침 될 때 flag 상태
+    var scrollUpdater = scrollDOM.scrollTop || 0;
 
-    window.scrollUpdater = document.documentElement.scrollTop || 0;
+    scrollDOM.addEventListener('scroll', function(){ // 스크롤 이벤트 발생
+        let DOMScrollTop = scrollDOM.scrollTop;
+        let scrollDirection = DOMScrollTop - scrollUpdater >= 0 ? 1 : -1; // 스크롤 방향 감지 ( 위로가면 -1, 밑으로가면 1 )
 
-    document.addEventListener('scroll', function(){ // 스크롤 이벤트 발생
-        let windowScrollTop = document.documentElement.scrollTop;
-        let scrollDirection = windowScrollTop - window.scrollUpdater >= 0 ? 1 : -1; // 스크롤 방향 감지 ( 위로가면 -1, 밑으로가면 1 )
-
-        window.scrollUpdater = windowScrollTop; // WindowScrollTop 업데이트
+        scrollUpdater = scrollDOM; // DOMScrollTop 업데이트
 
         setFlag(scrollDirection, event); //스크롤 방향을 파라미터로 들고 플래그 setFlag 함수로 이동
     });
 
     function setFlag(direction){
-        if(direction === -1 && window.scrollY <= 0){ //위로 스크롤 할 때
+        if(direction === -1 && scrollDOM.scrollTop <= 0){ //위로 스크롤 할 때
             flagForFullPageScroll = true;
             //스크롤 방향이 위고 최상단에 도달하여 flag를 true로 변경
         }
@@ -71,9 +79,9 @@
             if(flagForFullPageScroll){
                 doFullPageScroll(); //플래그가 true면 이벤트 발생
             }
-            if(window.scrollY >= targetOffset){ //이동이 끝나면
+            if(scrollDOM.scrollTop >= targetOffset){ //이동이 끝나면
                 setTimeout(function(){
-                    body.classList.remove("scrollPreventDefault") //500밀리초 이후 스크롤 허용
+                    scrollDOM.classList.remove("scrollPreventDefault") //500밀리초 이후 스크롤 허용
                 },500)
             }
             flagForFullPageScroll = false;
@@ -82,8 +90,8 @@
     }
 
     function doFullPageScroll(){ //스크롤 이벤트
-        body.classList.add("scrollPreventDefault") //body 스크롤 막기
-        window.scrollTo(0, targetOffset) //타겟돔으로 이동
+        scrollDOM.classList.add("scrollPreventDefault") //body 스크롤 막기
+        scrollDOM.scrollTo(0, targetOffset) //타겟돔으로 이동
     }
 
 </script>
