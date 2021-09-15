@@ -17,6 +17,8 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+        transform: translate3d(0,0,0);
+        -webkit-transform: translateZ(0);
     }
     .wrapper_site{
         position: fixed;
@@ -45,7 +47,7 @@
 <body>
     <div class="wrapper_site">
         <div class="wrapper_contents">
-            <div class="contents_box">Cont_1 Test</div>
+            <div class="contents_box">Cont_1</div>
             <div class="contents_box" id="target">Cont_2</div>
             <div class="contents_box">Cont_3</div>
         </div>
