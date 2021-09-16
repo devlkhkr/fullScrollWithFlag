@@ -67,7 +67,7 @@
         let DOMScrollTop = scrollDOM.scrollTop;
         let scrollDirection = DOMScrollTop - scrollUpdater >= 0 ? 1 : -1; // 스크롤 방향 감지 ( 위로가면 -1, 밑으로가면 1 )
 
-        scrollUpdater = scrollDOM; // DOMScrollTop 업데이트
+        scrollUpdater = DOMScrollTop; // DOMScrollTop 업데이트
 
         setFlag(scrollDirection); //스크롤 방향을 파라미터로 들고 플래그 setFlag 함수로 이동
     });
