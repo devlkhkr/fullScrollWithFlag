@@ -77,7 +77,7 @@
             flagForFullPageScroll = true;
             //스크롤 방향이 위고 최상단에 도달하여 flag를 true로 변경
         }
-        else{ //아래로 스크롤 할 때
+        else if(direction === 1 && scrollDOM.scrollTop > 0){ //아래로 스크롤 할 때
             if(flagForFullPageScroll){
                 doFullPageScroll(); //플래그가 true면 이벤트 발생
             }
